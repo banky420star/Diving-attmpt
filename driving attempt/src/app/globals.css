@@ -1,0 +1,271 @@
+/* Grilled.ink - Premium Modern Design System */
+
+/* CSS Custom Properties for Design System */
+:root {
+  /* Brand Colors - Modern Gradients */
+  --brand-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --brand-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --brand-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --brand-success: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  --brand-warning: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  --brand-danger: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+  
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  --glass-backdrop: blur(8px);
+  
+  /* Dark Mode Glass */
+  --glass-bg-dark: rgba(0, 0, 0, 0.3);
+  --glass-border-dark: rgba(255, 255, 255, 0.1);
+  --glass-shadow-dark: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  /* Spacing & Typography */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  
+  /* Border Radius */
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.4);
+  
+  /* Animations */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphism Components */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  transition: all var(--transition-normal);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.45);
+}
+
+.dark .glass-card {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  box-shadow: var(--glass-shadow-dark);
+}
+
+/* Gradient Backgrounds */
+.gradient-bg-primary {
+  background: var(--brand-primary);
+}
+
+.gradient-bg-secondary {
+  background: var(--brand-secondary);
+}
+
+.gradient-bg-accent {
+  background: var(--brand-accent);
+}
+
+.gradient-bg-success {
+  background: var(--brand-success);
+}
+
+.gradient-bg-warning {
+  background: var(--brand-warning);
+}
+
+.gradient-bg-danger {
+  background: var(--brand-danger);
+}
+
+/* Modern Button Styles */
+.btn-modern {
+  position: relative;
+  overflow: hidden;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  transform: translateZ(0);
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left var(--transition-slow);
+}
+
+.btn-modern:hover::before {
+  left: 100%;
+}
+
+.btn-modern:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.btn-modern:active {
+  transform: translateY(0);
+}
+
+/* Floating Animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse Animation */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(102, 126, 234, 0.8);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Modern Card Styles */
+.modern-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-xl);
+  box-shadow: 
+    0 8px 32px rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transition: all var(--transition-normal);
+}
+
+.modern-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 20px 40px rgba(31, 38, 135, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.dark .modern-card {
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Status Indicators */
+.status-online {
+  background: var(--brand-success);
+  box-shadow: 0 0 10px rgba(67, 233, 123, 0.5);
+}
+
+.status-offline {
+  background: var(--brand-danger);
+  box-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
+}
+
+.status-busy {
+  background: var(--brand-warning);
+  box-shadow: 0 0 10px rgba(250, 112, 154, 0.5);
+}
+
+/* Modern Input Styles */
+.modern-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all var(--transition-normal);
+}
+
+.modern-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.dark .modern-input {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .modern-input:focus {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* Loading Animation */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0.1) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* Modern Scrollbar */
+.modern-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modern-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+}
+
+.modern-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: var(--radius-full);
+}
+
+.modern-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}

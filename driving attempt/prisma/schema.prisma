@@ -1,0 +1,173 @@
+// GRILLED.DRIVERS - Personal Uber Delivery System Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Admin user (you/the business owner)
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  // Relations
+  createdOrders Order[]
+  settings      AdminSetting[]
+  
+  @@map("admins")
+}
+
+// Drivers in the fleet
+model Driver {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  password     String
+  name         String
+  phone        String
+  vehicleType  VehicleType @default(CAR) // CAR, MOTORBIKE, VAN
+  vehiclePlate String?
+  status       DriverStatus @default(OFFLINE) // ONLINE, OFFLINE, ON_JOB, BREAK
+  rating       Float    @default(5.0)
+  totalJobs    Int      @default(0)
+  totalEarnings Float   @default(0)
+  latitude     Float?
+  longitude    Float?
+  lastActiveAt DateTime @default(now())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  assignedOrders Order[]
+  earnings       Earning[]
+  payouts        Payout[]
+  
+  @@map("drivers")
+}
+
+// Customer orders (entered by admin)
+model Order {
+  id              String      @id @default(cuid())
+  customerName    String
+  customerPhone   String
+  pickupAddress   String
+  pickupLat       Float
+  pickupLng       Float
+  deliveryAddress String
+  deliveryLat     Float
+  deliveryLng     Float
+  orderValue      Float       // Total value of food items (R)
+  deliveryFee     Float       // Delivery fee charged to customer
+  driverPay       Float       // Amount paid to driver
+  paymentType     PaymentType @default(EFT) // EFT, CASH
+  notes           String?
+  status          OrderStatus @default(PENDING)
+  assignedDriverId String?
+  createdById     String?
+  acceptedAt      DateTime?
+  pickedUpAt      DateTime?
+  deliveredAt     DateTime?
+  estimatedTime   Int?        // Estimated delivery time in minutes
+  actualTime      Int?        // Actual delivery time in minutes
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  // Relations
+  assignedDriver Driver? @relation(fields: [assignedDriverId], references: [id])
+  createdBy      Admin?  @relation(fields: [createdById], references: [id])
+  earnings       Earning[]
+  
+  @@map("orders")
+}
+
+// Driver earnings tracking
+model Earning {
+  id          String   @id @default(cuid())
+  driverId    String
+  orderId     String
+  amount      Float    // Amount earned for this order
+  tip         Float    @default(0)
+  distance    Float?   // Distance in km
+  duration    Int?     // Duration in minutes
+  earnedAt    DateTime @default(now())
+  
+  // Relations
+  driver Driver @relation(fields: [driverId], references: [id])
+  order  Order  @relation(fields: [orderId], references: [id])
+  
+  @@map("earnings")
+}
+
+// Driver payouts
+model Payout {
+  id          String     @id @default(cuid())
+  driverId    String
+  amount      Float
+  status      PayoutStatus @default(PENDING) // PENDING, PROCESSED, PAID
+  processedAt DateTime?
+  paidAt      DateTime?
+  notes       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  // Relations
+  driver Driver @relation(fields: [driverId], references: [id])
+  
+  @@map("payouts")
+}
+
+// Admin settings for fees and rules
+model AdminSetting {
+  id        String @id @default(cuid())
+  key       String @unique
+  value     String
+  adminId   String?
+  
+  // Relations
+  admin Admin? @relation(fields: [adminId], references: [id])
+  
+  @@map("admin_settings")
+}
+
+// Enums
+enum VehicleType {
+  CAR
+  MOTORBIKE
+  VAN
+}
+
+enum DriverStatus {
+  ONLINE
+  OFFLINE
+  ON_JOB
+  BREAK
+}
+
+enum OrderStatus {
+  PENDING      // Created, waiting for assignment
+  ASSIGNED     // Assigned to driver, waiting for acceptance
+  ACCEPTED     // Driver accepted, on the way to pickup
+  PICKED_UP    // Driver picked up the order
+  EN_ROUTE     // Driver on the way to delivery
+  DELIVERED    // Order delivered successfully
+  CANCELLED    // Order cancelled
+}
+
+enum PaymentType {
+  EFT
+  CASH
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSED
+  PAID
+}

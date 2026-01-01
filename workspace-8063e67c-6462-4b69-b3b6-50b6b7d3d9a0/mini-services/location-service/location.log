@@ -1,0 +1,5 @@
+$ bun --hot index.ts
+🚀 Location Service starting on port 3001
+🌐 Location Service running on http://localhost:3001
+📊 Health check: http://localhost:3001/health
+🔗 WebSocket endpoint: ws://localhost:3001

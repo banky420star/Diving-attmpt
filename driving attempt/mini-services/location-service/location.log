@@ -1,0 +1,451 @@
+$ bun --hot index.ts
+🚀 Location Service starting on port 3001
+🌐 Location Service running on http://localhost:3001
+📊 Health check: http://localhost:3001/health
+🔗 WebSocket endpoint: ws://localhost:3001
+🚀 Grilled.ink Location Service starting on port 3001
+🌐 Grilled.ink Location Service running on http://localhost:3001
+📊 Health check: http://localhost:3001/health
+🔗 WebSocket endpoint: ws://localhost:3001
+👨‍💼 Admin room: admin-room
+👨‍✈️ Driver rooms: driver-{driverId}
+📱 Client connected: UVD-vtnMNQNwxeKGAAAB
+👨‍💼 Admin joined dashboard
+📱 Client connected: H1EdzukYX052Dp43AAAD
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: UVD-vtnMNQNwxeKGAAAB
+👨‍💼 Admin disconnected
+📱 Client disconnected: H1EdzukYX052Dp43AAAD
+👨‍💼 Admin disconnected
+📱 Client connected: at9BNX8Sbfv2Mb_GAAAF
+👨‍💼 Admin joined dashboard
+📱 Client connected: 36wztBsyXt4Srm_-AAAH
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: at9BNX8Sbfv2Mb_GAAAF
+👨‍💼 Admin disconnected
+📱 Client connected: UVAw1ghhPDuylV0cAAAJ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 36wztBsyXt4Srm_-AAAH
+👨‍💼 Admin disconnected
+📱 Client connected: g03eavoW1DFDtGfhAAAL
+👨‍💼 Admin joined dashboard
+📱 Client connected: 6Km8IdeupEpyHQ0PAAAN
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: g03eavoW1DFDtGfhAAAL
+👨‍💼 Admin disconnected
+📱 Client connected: L7x5z7VNqh34zcRxAAAP
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 6Km8IdeupEpyHQ0PAAAN
+👨‍💼 Admin disconnected
+📱 Client disconnected: L7x5z7VNqh34zcRxAAAP
+👨‍💼 Admin disconnected
+📱 Client disconnected: UVAw1ghhPDuylV0cAAAJ
+👨‍💼 Admin disconnected
+📱 Client connected: SM6dExJ490vbj95NAAAR
+📱 Client connected: FYScqmaTifohSFwKAAAT
+📱 Client disconnected: SM6dExJ490vbj95NAAAR
+📱 Client disconnected: FYScqmaTifohSFwKAAAT
+📱 Client connected: ckiatDJH7jUvDmndAAAV
+📱 Client disconnected: ckiatDJH7jUvDmndAAAV
+📱 Client connected: bTMbGqD4RiKiddEgAAAX
+📱 Client connected: 8MM7A2HVCq_OWkUKAAAZ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 8MM7A2HVCq_OWkUKAAAZ
+👨‍💼 Admin disconnected
+📱 Client connected: 7hJbDrtOEcGRRcJwAAAb
+📱 Client connected: ClhmJEfdBZuFIZ85AAAd
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: ClhmJEfdBZuFIZ85AAAd
+👨‍💼 Admin disconnected
+📱 Client connected: D7iBNAQBsI0TQWfeAAAf
+📱 Client connected: 5iO11oHOPRiqB0I0AAAh
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 5iO11oHOPRiqB0I0AAAh
+👨‍💼 Admin disconnected
+📱 Client connected: _FIQnj4uwxkAKSwmAAAj
+📱 Client connected: Bmvq3imb9cmWdzZyAAAl
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: Bmvq3imb9cmWdzZyAAAl
+👨‍💼 Admin disconnected
+📱 Client connected: ymegYDfoj4ypW3PxAAAn
+📱 Client connected: 7uPbp9x6ieMIJam0AAAp
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 7uPbp9x6ieMIJam0AAAp
+👨‍💼 Admin disconnected
+📱 Client connected: MHnat1uR-mbluxmAAAAr
+📱 Client connected: TWHzJ5HhJdFaKCpBAAAt
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: TWHzJ5HhJdFaKCpBAAAt
+👨‍💼 Admin disconnected
+📱 Client connected: 3B3x9f5qhANxyJ8iAAAv
+📱 Client connected: hK7uN1wOB3pP4mPSAAAx
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: hK7uN1wOB3pP4mPSAAAx
+👨‍💼 Admin disconnected
+📱 Client connected: 6JNb94LpXaecTRc4AAAz
+📱 Client connected: kMAYcYkc1ejpebKKAAA1
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: kMAYcYkc1ejpebKKAAA1
+👨‍💼 Admin disconnected
+📱 Client connected: 93QTz8pms1HPD6K7AAA3
+📱 Client connected: YdtWwznf1j-MZzO-AAA5
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: YdtWwznf1j-MZzO-AAA5
+👨‍💼 Admin disconnected
+📱 Client connected: RJ7CbpxIsh-lFLUPAAA7
+📱 Client connected: jbGM4kMyGTxX-F8PAAA9
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: jbGM4kMyGTxX-F8PAAA9
+👨‍💼 Admin disconnected
+📱 Client connected: u2YOCQ9D4RsCSBgCAAA_
+📱 Client connected: G05SxzEdusHXgfnRAABB
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: G05SxzEdusHXgfnRAABB
+👨‍💼 Admin disconnected
+📱 Client connected: dnTQ8B1vIT_DQqRTAABD
+📱 Client connected: nREJOV-0myf40QHiAABF
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: nREJOV-0myf40QHiAABF
+👨‍💼 Admin disconnected
+📱 Client connected: LeioTPlSJ9dWAi7iAABH
+📱 Client connected: LowWXoWfa1zBWUQgAABJ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: LowWXoWfa1zBWUQgAABJ
+👨‍💼 Admin disconnected
+📱 Client connected: JBaCIq3sLTWTvp2VAABL
+📱 Client connected: GrmMDMRXQg-3q52mAABN
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: GrmMDMRXQg-3q52mAABN
+👨‍💼 Admin disconnected
+📱 Client connected: hPxlii48OWhxMDTsAABP
+📱 Client connected: aM0QBOwUl5n4takSAABR
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: aM0QBOwUl5n4takSAABR
+👨‍💼 Admin disconnected
+📱 Client connected: gr36DoA3d1J7ZNhPAABT
+📱 Client connected: G2c7sPSQvaUjdlAkAABV
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: G2c7sPSQvaUjdlAkAABV
+👨‍💼 Admin disconnected
+📱 Client connected: tSIdUvEwuDKGDm_GAABX
+📱 Client connected: 4AdxdtgUuamXzt2lAABZ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 4AdxdtgUuamXzt2lAABZ
+👨‍💼 Admin disconnected
+📱 Client connected: vzbO7NrJWPucI1IlAABb
+📱 Client connected: TnGaVhoBP4JlyZ6iAABd
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: TnGaVhoBP4JlyZ6iAABd
+👨‍💼 Admin disconnected
+📱 Client connected: lK91ck_sGym3C3NhAABf
+📱 Client connected: 5YDlIwQYzgY9zra7AABh
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 5YDlIwQYzgY9zra7AABh
+👨‍💼 Admin disconnected
+📱 Client connected: f98Ooz3SWqpREyQiAABj
+📱 Client connected: MgNVnKGEoHEqjJdMAABl
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: MgNVnKGEoHEqjJdMAABl
+👨‍💼 Admin disconnected
+📱 Client connected: fIjuMcNkVvrPsanaAABn
+📱 Client connected: g6q7Mu4GMzhReKQXAABp
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: g6q7Mu4GMzhReKQXAABp
+👨‍💼 Admin disconnected
+📱 Client connected: 87X1z_c4j_WpNww8AABr
+📱 Client connected: cvkvqg2RDVL4hbphAABt
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: cvkvqg2RDVL4hbphAABt
+👨‍💼 Admin disconnected
+📱 Client connected: PkG7pJbjVc03EXSMAABv
+📱 Client connected: iFokKhTx9SCiRqA3AABx
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: iFokKhTx9SCiRqA3AABx
+👨‍💼 Admin disconnected
+📱 Client connected: cZKbeEkF5D1rQ7pcAABz
+📱 Client connected: bRGPQrjGr7VLW2MdAAB1
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: bRGPQrjGr7VLW2MdAAB1
+👨‍💼 Admin disconnected
+📱 Client connected: 88_7FSGs4cUp-ktQAAB3
+📱 Client connected: jzyc6ghcZzWzwi0AAAB5
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: jzyc6ghcZzWzwi0AAAB5
+👨‍💼 Admin disconnected
+📱 Client connected: _gcisJ7-wjbmi85YAAB7
+📱 Client connected: fFQiBlrI71NSCb_jAAB9
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: fFQiBlrI71NSCb_jAAB9
+👨‍💼 Admin disconnected
+📱 Client connected: Fj4r5CetEJY2yuSlAAB_
+📱 Client connected: mVst0dUaLHaBwhUZAACB
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: mVst0dUaLHaBwhUZAACB
+👨‍💼 Admin disconnected
+📱 Client connected: o8BbEUZVaEsv8wCQAACD
+📱 Client connected: brcWAJ18PfPZlOsFAACF
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: brcWAJ18PfPZlOsFAACF
+👨‍💼 Admin disconnected
+📱 Client connected: _IC_r4IUM1TeUNWyAACH
+📱 Client connected: wMIsTG7iICOcQxO5AACJ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: wMIsTG7iICOcQxO5AACJ
+👨‍💼 Admin disconnected
+📱 Client connected: gYQUl3ehqrEYsa2GAACL
+📱 Client connected: 5J6Tm1z02uKneC8GAACN
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 5J6Tm1z02uKneC8GAACN
+👨‍💼 Admin disconnected
+📱 Client connected: EOidOcjtK9fzIiuwAACP
+📱 Client connected: 4c8ryPJ5wGrwZxIiAACR
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 4c8ryPJ5wGrwZxIiAACR
+👨‍💼 Admin disconnected
+📱 Client connected: AWau3iN0zmsEaIbXAACT
+📱 Client connected: ZhKVAECUvyYAljAlAACV
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: ZhKVAECUvyYAljAlAACV
+👨‍💼 Admin disconnected
+📱 Client connected: 90nQVwN6DiwTxc17AACX
+📱 Client connected: 62CWb-l52rJVpX1eAACZ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 62CWb-l52rJVpX1eAACZ
+👨‍💼 Admin disconnected
+📱 Client connected: UAzBS3_6oZKAERjoAACb
+📱 Client connected: hgd1devmKG68DP7RAACd
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: hgd1devmKG68DP7RAACd
+👨‍💼 Admin disconnected
+📱 Client connected: QGeeE3I43lBqKAI7AACf
+📱 Client connected: CVG8qgcRFil47FjwAACh
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: CVG8qgcRFil47FjwAACh
+👨‍💼 Admin disconnected
+📱 Client connected: Q3vqTcdKF9sV6gpzAACj
+📱 Client connected: NQikaB2OMUWxOOpFAACl
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: NQikaB2OMUWxOOpFAACl
+👨‍💼 Admin disconnected
+📱 Client connected: tYUVD2KHvqXmBhv3AACn
+📱 Client connected: wSk-vUNr0Wbxm1uJAACp
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: wSk-vUNr0Wbxm1uJAACp
+👨‍💼 Admin disconnected
+📱 Client connected: Sx83IVliYpkQ2bVnAACr
+📱 Client connected: OveqAsM00M-cowL3AACt
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: OveqAsM00M-cowL3AACt
+👨‍💼 Admin disconnected
+📱 Client connected: 7nS4z0DS_zZyTkJaAACv
+📱 Client connected: o0AGe9mow5xYX8rrAACx
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: o0AGe9mow5xYX8rrAACx
+👨‍💼 Admin disconnected
+📱 Client connected: kM1q6OHh_HA4cwRwAACz
+📱 Client connected: 7HjR8i83OMWdFyikAAC1
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 7HjR8i83OMWdFyikAAC1
+👨‍💼 Admin disconnected
+📱 Client connected: NZ3hJvlaqBXPVb5lAAC3
+📱 Client connected: VGmD7zFw97-vsfetAAC5
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: VGmD7zFw97-vsfetAAC5
+👨‍💼 Admin disconnected
+📱 Client connected: V78_GzyhL4U1xQhEAAC7
+📱 Client connected: 20X7vsoG_7YJ79I4AAC9
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 20X7vsoG_7YJ79I4AAC9
+👨‍💼 Admin disconnected
+📱 Client connected: EFP-ttYwP7Pf4vgnAAC_
+📱 Client connected: i1RupXw93nEobwjMAADB
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: i1RupXw93nEobwjMAADB
+👨‍💼 Admin disconnected
+📱 Client connected: ZvZ2dQHXWu-6qMVmAADD
+📱 Client connected: MDqPzIun5jG9wWQWAADF
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: MDqPzIun5jG9wWQWAADF
+👨‍💼 Admin disconnected
+📱 Client connected: hzlHzKgWJP8JHs0VAADH
+📱 Client connected: Fk8eCTDk7UUi9MZFAADJ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: Fk8eCTDk7UUi9MZFAADJ
+👨‍💼 Admin disconnected
+📱 Client connected: 5h7NJcO-0gtJ97GQAADL
+📱 Client connected: 0tWxLYlo9QbMF9_UAADN
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 0tWxLYlo9QbMF9_UAADN
+👨‍💼 Admin disconnected
+📱 Client connected: lurAKC65NxfM-eR2AADP
+📱 Client connected: Z_uR40gR3eJ3zfJHAADR
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: Z_uR40gR3eJ3zfJHAADR
+👨‍💼 Admin disconnected
+📱 Client connected: fnOjbWmg6GMWP6UJAADT
+📱 Client connected: kxRwiTa7E011LMDpAADV
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: kxRwiTa7E011LMDpAADV
+👨‍💼 Admin disconnected
+📱 Client connected: h-iMsksXk5cwMrP2AADX
+📱 Client connected: 92YmWAdaU70eWiepAADZ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 92YmWAdaU70eWiepAADZ
+👨‍💼 Admin disconnected
+📱 Client connected: hr3NLQ4VgPcy9VvBAADb
+📱 Client connected: rvEE701w0BZ-XiJpAADd
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: rvEE701w0BZ-XiJpAADd
+👨‍💼 Admin disconnected
+📱 Client connected: X7Zr5xKkhB5GG9epAADf
+📱 Client connected: MU7B00WwbZgsGKnEAADh
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: MU7B00WwbZgsGKnEAADh
+👨‍💼 Admin disconnected
+📱 Client connected: bYCJcALYGYzBMjCYAADj
+📱 Client connected: lDudgt6O6TVYTlYCAADl
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: lDudgt6O6TVYTlYCAADl
+👨‍💼 Admin disconnected
+📱 Client connected: lT1M4JKkUZpCL063AADn
+📱 Client connected: Ywu0Ntgxv9VTkiVjAADp
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: Ywu0Ntgxv9VTkiVjAADp
+👨‍💼 Admin disconnected
+📱 Client connected: -Lp-x_kdXetMZzzUAADr
+📱 Client connected: bwort7RMTsoV2N7UAADt
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: bwort7RMTsoV2N7UAADt
+👨‍💼 Admin disconnected
+📱 Client connected: hLu_eoLGDTZbCSdZAADv
+📱 Client connected: _AjL0xCQGqfH92VSAADx
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: _AjL0xCQGqfH92VSAADx
+👨‍💼 Admin disconnected
+📱 Client connected: ZJ1dFKuV94Uz9W3AAADz
+📱 Client connected: IvGXLW3Woeq7sPDvAAD1
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: IvGXLW3Woeq7sPDvAAD1
+👨‍💼 Admin disconnected
+📱 Client connected: N0DTdWOC2I--mZqzAAD3
+📱 Client connected: 0hpStgBqWLDRpX16AAD5
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: 0hpStgBqWLDRpX16AAD5
+👨‍💼 Admin disconnected
+📱 Client connected: jbzftP3q-z4UvyeAAAD7
+📱 Client connected: ojlMgTnO8pdOyb6pAAD9
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: ojlMgTnO8pdOyb6pAAD9
+👨‍💼 Admin disconnected
+📱 Client connected: 6JvqopFNJKNB0t83AAD_
+📱 Client connected: g38Cc-RF67wWh7yqAAEB
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: g38Cc-RF67wWh7yqAAEB
+👨‍💼 Admin disconnected
+📱 Client connected: 2Mi2wtK-jOUwAiZ9AAED
+📱 Client connected: xt1JV1OfGTElm4vGAAEF
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: xt1JV1OfGTElm4vGAAEF
+👨‍💼 Admin disconnected
+📱 Client connected: i5frWDdIhVkPVMVvAAEH
+📱 Client connected: jtBIpMt_vJP4oRRoAAEJ
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: jtBIpMt_vJP4oRRoAAEJ
+👨‍💼 Admin disconnected
+📱 Client connected: tQDXRilEiEEvpJ5TAAEL
+📱 Client connected: _gxIycM1IgYPpjcwAAEN
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: _gxIycM1IgYPpjcwAAEN
+👨‍💼 Admin disconnected
+📱 Client connected: 9UblZ-x1vJEpp75IAAEP
+📱 Client connected: pTnaG0rcTNDBB_Q_AAER
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: pTnaG0rcTNDBB_Q_AAER
+👨‍💼 Admin disconnected
+📱 Client connected: izSyhUZ56qP40i85AAET
+📱 Client connected: AgnosGk-SOfTLWSrAAEV
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: AgnosGk-SOfTLWSrAAEV
+👨‍💼 Admin disconnected
+📱 Client connected: H2dfpmKgWr_2ywQXAAEX
+📱 Client disconnected: lK91ck_sGym3C3NhAABf
+📱 Client disconnected: jbzftP3q-z4UvyeAAAD7
+📱 Client disconnected: Fj4r5CetEJY2yuSlAAB_
+📱 Client disconnected: _FIQnj4uwxkAKSwmAAAj
+📱 Client disconnected: QGeeE3I43lBqKAI7AACf
+📱 Client disconnected: dnTQ8B1vIT_DQqRTAABD
+📱 Client disconnected: EFP-ttYwP7Pf4vgnAAC_
+📱 Client disconnected: X7Zr5xKkhB5GG9epAADf
+📱 Client disconnected: f98Ooz3SWqpREyQiAABj
+📱 Client disconnected: 6JvqopFNJKNB0t83AAD_
+📱 Client disconnected: o8BbEUZVaEsv8wCQAACD
+📱 Client disconnected: Q3vqTcdKF9sV6gpzAACj
+📱 Client disconnected: ymegYDfoj4ypW3PxAAAn
+📱 Client disconnected: ZvZ2dQHXWu-6qMVmAADD
+📱 Client disconnected: LeioTPlSJ9dWAi7iAABH
+📱 Client disconnected: bYCJcALYGYzBMjCYAADj
+📱 Client disconnected: fIjuMcNkVvrPsanaAABn
+📱 Client disconnected: 2Mi2wtK-jOUwAiZ9AAED
+📱 Client connected: QjUqVdNWFKGA5HJ8AAEa
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: _IC_r4IUM1TeUNWyAACH
+📱 Client disconnected: MHnat1uR-mbluxmAAAAr
+📱 Client disconnected: tYUVD2KHvqXmBhv3AACn
+📱 Client disconnected: JBaCIq3sLTWTvp2VAABL
+📱 Client disconnected: hzlHzKgWJP8JHs0VAADH
+📱 Client disconnected: lT1M4JKkUZpCL063AADn
+📱 Client disconnected: 87X1z_c4j_WpNww8AABr
+📱 Client disconnected: i5frWDdIhVkPVMVvAAEH
+📱 Client disconnected: gYQUl3ehqrEYsa2GAACL
+📱 Client disconnected: 3B3x9f5qhANxyJ8iAAAv
+📱 Client disconnected: Sx83IVliYpkQ2bVnAACr
+📱 Client disconnected: hPxlii48OWhxMDTsAABP
+📱 Client disconnected: 5h7NJcO-0gtJ97GQAADL
+📱 Client disconnected: -Lp-x_kdXetMZzzUAADr
+📱 Client disconnected: PkG7pJbjVc03EXSMAABv
+📱 Client disconnected: tQDXRilEiEEvpJ5TAAEL
+📱 Client disconnected: EOidOcjtK9fzIiuwAACP
+📱 Client disconnected: 6JNb94LpXaecTRc4AAAz
+📱 Client disconnected: 7nS4z0DS_zZyTkJaAACv
+📱 Client disconnected: gr36DoA3d1J7ZNhPAABT
+📱 Client disconnected: lurAKC65NxfM-eR2AADP
+📱 Client disconnected: hLu_eoLGDTZbCSdZAADv
+📱 Client disconnected: cZKbeEkF5D1rQ7pcAABz
+📱 Client disconnected: 9UblZ-x1vJEpp75IAAEP
+📱 Client disconnected: AWau3iN0zmsEaIbXAACT
+📱 Client disconnected: bTMbGqD4RiKiddEgAAAX
+📱 Client disconnected: 93QTz8pms1HPD6K7AAA3
+📱 Client disconnected: kM1q6OHh_HA4cwRwAACz
+📱 Client disconnected: tSIdUvEwuDKGDm_GAABX
+📱 Client disconnected: fnOjbWmg6GMWP6UJAADT
+📱 Client disconnected: ZJ1dFKuV94Uz9W3AAADz
+📱 Client disconnected: hr3NLQ4VgPcy9VvBAADb
+📱 Client disconnected: 88_7FSGs4cUp-ktQAAB3
+📱 Client disconnected: izSyhUZ56qP40i85AAET
+📱 Client disconnected: 7hJbDrtOEcGRRcJwAAAb
+📱 Client disconnected: 90nQVwN6DiwTxc17AACX
+📱 Client disconnected: RJ7CbpxIsh-lFLUPAAA7
+📱 Client disconnected: NZ3hJvlaqBXPVb5lAAC3
+📱 Client disconnected: h-iMsksXk5cwMrP2AADX
+📱 Client disconnected: vzbO7NrJWPucI1IlAABb
+📱 Client disconnected: N0DTdWOC2I--mZqzAAD3
+📱 Client disconnected: _gcisJ7-wjbmi85YAAB7
+📱 Client disconnected: H2dfpmKgWr_2ywQXAAEX
+📱 Client disconnected: D7iBNAQBsI0TQWfeAAAf
+📱 Client disconnected: UAzBS3_6oZKAERjoAACb
+📱 Client disconnected: u2YOCQ9D4RsCSBgCAAA_
+📱 Client disconnected: V78_GzyhL4U1xQhEAAC7
+📱 Client connected: v-GGqOH83t5jlShjAAEc
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: QjUqVdNWFKGA5HJ8AAEa
+👨‍💼 Admin disconnected
+📱 Client disconnected: v-GGqOH83t5jlShjAAEc
+👨‍💼 Admin disconnected
+📱 Client connected: DisXSRte4WGWgCwsAAEe
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: DisXSRte4WGWgCwsAAEe
+👨‍💼 Admin disconnected
+📱 Client connected: hfreBqrOqQOTA_njAAEg
+👨‍💼 Admin joined dashboard
+📱 Client disconnected: hfreBqrOqQOTA_njAAEg
+👨‍💼 Admin disconnected
