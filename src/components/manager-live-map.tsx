@@ -61,6 +61,7 @@ const OSM_STYLE = {
         'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
       ],
       tileSize: 256,
+      maxzoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }
   },
@@ -207,6 +208,7 @@ export function ManagerLiveMap({
           style: OSM_STYLE,
           center: DEFAULT_CENTER,
           zoom: DEFAULT_ZOOM,
+          maxZoom: 18,
           attributionControl: false
         })
 
@@ -219,6 +221,12 @@ export function ManagerLiveMap({
         )
         map.scrollZoom.disable()
         mapRef.current = map
+
+        map.on('error', (event) => {
+          if (event?.sourceId === 'osm') {
+            event?.preventDefault?.()
+          }
+        })
       } catch (error) {
         console.error('Failed to load maplibre:', error)
       }

@@ -31,7 +31,8 @@ const OSM_STYLE = {
         'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
       ],
       tileSize: 256,
-      attribution: '&copy; OpenStreetMap contributors'
+      attribution: '&copy; OpenStreetMap contributors',
+      maxzoom: 19
     }
   },
   layers: [
@@ -196,6 +197,7 @@ export function DriverRouteMap({
   const maplibreRef = useRef<typeof import('maplibre-gl') | null>(null)
   const lastRouteKeyRef = useRef<string>('')
   const lastRouteRef = useRef<GeoJSON.LineString | null>(null)
+  const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   useEffect(() => {
     let isMounted = true
@@ -212,15 +214,24 @@ export function DriverRouteMap({
           style: OSM_STYLE,
           center: DEFAULT_CENTER,
           zoom: DEFAULT_ZOOM,
+          maxZoom: 18,
           attributionControl: false
         })
 
         map.scrollZoom.disable()
         map.doubleClickZoom.disable()
+
+        map.on('error', (event) => {
+          if (event?.sourceId === 'osm') {
+            event?.preventDefault?.()
+          }
+        })
+
         mapRef.current = map
 
         map.on('load', () => {
           ensureRouteLayers(map)
+          map.resize()
         })
       } catch (error) {
         console.error('Failed to load maplibre:', error)
@@ -465,6 +476,31 @@ export function DriverRouteMap({
     onEtaChange,
     onRouteStatus
   ])
+
+  useEffect(() => {
+    const map = mapRef.current
+    const container = containerRef.current
+    if (!map || !container) return
+
+    const resize = () => {
+      try {
+        map.resize()
+      } catch {
+        // Ignore resize failures.
+      }
+    }
+
+    resizeObserverRef.current?.disconnect()
+    resizeObserverRef.current = new ResizeObserver(() => resize())
+    resizeObserverRef.current.observe(container)
+    window.addEventListener('resize', resize)
+
+    return () => {
+      resizeObserverRef.current?.disconnect()
+      resizeObserverRef.current = null
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
 
   return (
     <div className="driver-route-map">

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -171,11 +171,14 @@ const statusOptions: Array<{ value: DriverStatus; label: string }> = [
 ]
 
 export default function DriverApp() {
+  const [isHydrated, setIsHydrated] = useState(false)
+  useEffect(() => setIsHydrated(true), [])
+
   const router = useRouter()
   const searchParams = useSearchParams()
   const [driverId, setDriverId] = useState<string | null>(null)
   const [driver, setDriver] = useState<Driver | null>(null)
-  const [activeOrder, setActiveOrder] = useState<Order | null>(null)
+  const [activeOrders, setActiveOrders] = useState<Order[]>([])
   const [currentStatus, setCurrentStatus] = useState<DriverStatus>('OFFLINE')
   const [loading, setLoading] = useState(true)
   const [jobAlert, setJobAlert] = useState<Order | null>(null)
@@ -204,6 +207,7 @@ export default function DriverApp() {
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const lastLocationPing = useRef(0)
   const lastJobAlertIdRef = useRef<string | null>(null)
+  const declinedUntilRef = useRef<Map<string, number>>(new Map())
   const { toast } = useToast()
 
   useEffect(() => {
@@ -241,7 +245,7 @@ export default function DriverApp() {
 
       if (response.status === 401 || response.status === 403) {
         setDriver(null)
-        setActiveOrder(null)
+        setActiveOrders([])
         setJobAlert(null)
         setDriverId(null)
         if (typeof window !== 'undefined') {
@@ -326,6 +330,27 @@ export default function DriverApp() {
     )
   }, [isRequestingLocation, toast, updateLocation])
 
+  const ensureLiveLocation = useCallback(
+    (reason: string) => {
+      if (locationStatus !== 'granted') {
+        requestLocationPermission()
+        toast({
+          title: 'Location required',
+          description: `Turn on location to ${reason}.`
+        })
+        return false
+      }
+      if (!driverLocation) {
+        toast({
+          title: 'Waiting for GPS',
+          description: 'Keep the app open while we lock onto your position.'
+        })
+      }
+      return true
+    },
+    [driverLocation, locationStatus, requestLocationPermission, toast]
+  )
+
   useEffect(() => {
     if (typeof navigator === 'undefined' || !('permissions' in navigator)) {
       return
@@ -384,11 +409,9 @@ export default function DriverApp() {
         const activeCandidates = activeResults
           .flat()
           .filter((order) => order.assignedDriverId === driverId)
-        const active = activeCandidates[0] ?? null
+        setActiveOrders(activeCandidates)
 
-        setActiveOrder(active)
-
-        if (active) {
+        if (activeCandidates.length > 0) {
           setJobAlert(null)
           return
         }
@@ -397,27 +420,38 @@ export default function DriverApp() {
           const assignedOrders = await fetchJson<Order[]>(
             `/api/orders?status=ASSIGNED`
           )
-          const assignedForDriver = assignedOrders.find(
+          const assignedForDriver = assignedOrders.filter(
             (order) => order.assignedDriverId === driverId
           )
-          if (assignedForDriver) {
-            setJobAlert(assignedForDriver)
+          if (assignedForDriver.length > 0) {
+            // Queue assigned jobs behind any active jobs
+            setActiveOrders((prev) => [...prev, ...assignedForDriver])
+            setJobAlert(null)
             return
           }
 
           const pendingOrders = await fetchJson<Order[]>(
             `/api/orders?status=PENDING`
           )
-          const pending = pendingOrders.find(
-            (order) => !order.assignedDriverId
-          )
+          const now = Date.now()
+          const pending = pendingOrders
+            .filter((order) => !order.assignedDriverId)
+            .filter((order) => {
+              const until = declinedUntilRef.current.get(order.id)
+              return !until || until < now
+            })
+            .sort((a, b) => {
+              const aTime = new Date(a.createdAt ?? 0).getTime()
+              const bTime = new Date(b.createdAt ?? 0).getTime()
+              return aTime - bTime
+            })[0]
           setJobAlert(pending ?? null)
           return
         }
 
         setJobAlert(null)
       } catch (error) {
-        setActiveOrder(null)
+        setActiveOrders([])
         setJobAlert(null)
         toast({
           title: 'Unable to load orders',
@@ -432,7 +466,7 @@ export default function DriverApp() {
     let isMounted = true
     if (!driverId) {
       setDriver(null)
-      setActiveOrder(null)
+      setActiveOrders([])
       setJobAlert(null)
       setCurrentStatus('OFFLINE')
       setLoading(false)
@@ -447,7 +481,7 @@ export default function DriverApp() {
         await loadOrders(loadedDriver.status)
       } catch (error) {
         setDriver(null)
-        setActiveOrder(null)
+        setActiveOrders([])
         setJobAlert(null)
         const message =
           error instanceof Error && error.message
@@ -515,6 +549,8 @@ export default function DriverApp() {
     setRouteEta(null)
   }, [deliveryStage])
 
+  const activeOrder = useMemo(() => activeOrders[0] ?? null, [activeOrders])
+  const queuedOrders = useMemo(() => activeOrders.slice(1), [activeOrders])
   const effectiveStatus: DriverStatus = activeOrder ? 'ON_JOB' : currentStatus
 
   useEffect(() => {
@@ -688,8 +724,8 @@ export default function DriverApp() {
       })
       return
     }
-    if (locationStatus !== 'granted') {
-      requestLocationPermission()
+    if (!ensureLiveLocation('start the trip from your current position')) {
+      return
     }
     try {
       setIsWorking(true)
@@ -722,6 +758,7 @@ export default function DriverApp() {
     if (!jobAlert) {
       return
     }
+    declinedUntilRef.current.set(jobAlert.id, Date.now() + 5 * 60 * 1000)
     setJobAlert(null)
     try {
       if (jobAlert.assignedDriverId === driverId) {
@@ -744,6 +781,62 @@ export default function DriverApp() {
       })
     } finally {
       await loadOrders(currentStatus)
+    }
+  }
+
+  const handleAcceptAssignedOrder = async (order: Order) => {
+    if (!driverId) return
+    if (!ensureLiveLocation('accept this trip')) return
+    try {
+      setIsWorking(true)
+      await updateOrder(order.id, {
+        status: 'ACCEPTED',
+        assignedDriverId: driverId,
+        acceptedAt: new Date().toISOString()
+      })
+      prioritizeOrder(order.id)
+      try {
+        playNotificationTone('accept')
+      } catch {}
+      toast({
+        title: 'Trip accepted',
+        description: `${order.customerName} · ${order.pickupAddress}`
+      })
+      await loadOrders('ON_JOB')
+    } catch (error) {
+      toast({
+        title: 'Unable to accept trip',
+        description: 'Please try again.'
+      })
+    } finally {
+      setIsWorking(false)
+    }
+  }
+
+  const handleReleaseOrder = async (order: Order) => {
+    if (!driverId) return
+    try {
+      setIsWorking(true)
+      await updateOrder(order.id, {
+        status: 'PENDING',
+        assignedDriverId: null
+      })
+      setActiveOrders((prev) => prev.filter((item) => item.id !== order.id))
+      try {
+        playNotificationTone('decline')
+      } catch {}
+      toast({
+        title: 'Trip released',
+        description: 'The job is back in the pool.'
+      })
+      await loadOrders(currentStatus)
+    } catch (error) {
+      toast({
+        title: 'Unable to release trip',
+        description: 'Please try again.'
+      })
+    } finally {
+      setIsWorking(false)
     }
   }
 
@@ -773,6 +866,9 @@ export default function DriverApp() {
     lat?: number,
     lng?: number
   ) => {
+    if (!ensureLiveLocation('start navigation from your live location')) {
+      return
+    }
     const links = buildWazeLinks(address, lat, lng)
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
       const isMobile = /iPhone|iPad|Android/i.test(navigator.userAgent)
@@ -823,6 +919,13 @@ export default function DriverApp() {
 
   const handlePickupComplete = async () => {
     if (!activeOrder) return
+    if (activeOrder.status === 'ASSIGNED') {
+      toast({
+        title: 'Accept the trip first',
+        description: 'Tap Accept before confirming pickup.'
+      })
+      return
+    }
     if (deliveryStage === 'DELIVERY') {
       toast({
         title: 'Pickup already confirmed',
@@ -873,6 +976,13 @@ export default function DriverApp() {
 
   const handleCompleteDelivery = async () => {
     if (!activeOrder) return
+    if (activeOrder.status === 'ASSIGNED') {
+      toast({
+        title: 'Accept the trip first',
+        description: 'Tap Accept before completing the delivery.'
+      })
+      return
+    }
     if (deliveryStage !== 'DELIVERY') {
       toast({
         title: 'Pickup not confirmed',
@@ -902,7 +1012,9 @@ export default function DriverApp() {
         status: 'DELIVERED',
         deliveredAt: new Date().toISOString()
       })
-      setActiveOrder(null)
+      setActiveOrders((prev) =>
+        prev.filter((order) => order.id !== activeOrder.id)
+      )
       setDeliveryStage('PICKUP')
       setRouteEta(null)
       setRouteStatus('idle')
@@ -925,6 +1037,38 @@ export default function DriverApp() {
     }
   }
 
+  const handleShareRoute = async () => {
+    if (!activeOrder) return
+    if (!ensureLiveLocation('share your live route')) {
+      return
+    }
+    if (!driverLocation) {
+      toast({
+        title: 'Waiting for GPS',
+        description: 'Keep the app open while we lock onto your position.'
+      })
+      return
+    }
+    const destLat = activeOrder.deliveryLat
+    const destLng = activeOrder.deliveryLng
+    const pickupAddress = activeOrder.deliveryAddress
+    const url = `https://www.waze.com/live-map/directions?q=${encodeURIComponent(
+      pickupAddress
+    )}&navigate=yes&to=ll.${destLat},${destLng}&from=ll.${driverLocation.lat},${driverLocation.lng}`
+    try {
+      await navigator.clipboard.writeText(url)
+      toast({
+        title: 'Share link copied',
+        description: 'Send to the client to follow your live route.'
+      })
+    } catch (error) {
+      toast({
+        title: 'Unable to copy',
+        description: 'Copy the link from the address bar instead.'
+      })
+    }
+  }
+
   const handleCancelTrip = async () => {
     if (!activeOrder) return
     if (typeof window !== 'undefined') {
@@ -938,7 +1082,9 @@ export default function DriverApp() {
       await updateOrder(activeOrder.id, {
         status: 'CANCELLED'
       })
-      setActiveOrder(null)
+      setActiveOrders((prev) =>
+        prev.filter((order) => order.id !== activeOrder.id)
+      )
       setDeliveryStage('PICKUP')
       setRouteEta(null)
       setRouteStatus('idle')
@@ -1038,6 +1184,16 @@ export default function DriverApp() {
     const distance = getOrderDistance(order)
     return Math.max(10, Math.round(distance * 6 + 8))
   }
+
+  const prioritizeOrder = useCallback((orderId: string) => {
+    setActiveOrders((prev) => {
+      if (!prev.length || prev[0].id === orderId) return prev
+      const target = prev.find((order) => order.id === orderId)
+      if (!target) return prev
+      const rest = prev.filter((order) => order.id !== orderId)
+      return [target, ...rest]
+    })
+  }, [])
 
   const formatDistance = (distance: number) => `${distance.toFixed(1)} km`
   const formatMeters = (meters: number) =>
@@ -1212,10 +1368,6 @@ export default function DriverApp() {
               <div className="flex items-center justify-between text-sm text-white/60">
                 <span>Delivery fee</span>
                 <span>{formatCurrency(jobAlert.deliveryFee)}</span>
-              </div>
-              <div className="flex items-center justify-between text-sm text-white/60">
-                <span>Payment</span>
-                <span>{jobAlert.paymentType}</span>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Button
@@ -1497,6 +1649,33 @@ export default function DriverApp() {
               </div>
             </CardHeader>
             <CardContent className="space-y-5 p-6">
+              {activeOrder.status === 'ASSIGNED' && (
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-400/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-100">
+                  <span className="uppercase tracking-[0.25em]">
+                    Trip assigned · accept to start
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="neon-outline"
+                      onClick={() => handleAcceptAssignedOrder(activeOrder)}
+                      disabled={isWorking}
+                    >
+                      Accept
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="neon-outline border-red-400/60 text-red-200 hover:border-red-300 hover:text-red-100"
+                      onClick={() => handleReleaseOrder(activeOrder)}
+                      disabled={isWorking}
+                    >
+                      Release
+                    </Button>
+                  </div>
+                </div>
+              )}
               <div className="space-y-2">
                 <div className="flex flex-wrap items-center justify-between text-xs uppercase tracking-[0.3em] text-white/50">
                   <span>Route preview</span>
@@ -1509,17 +1688,28 @@ export default function DriverApp() {
                           ? 'Route ready'
                           : 'GPS not shared'}
                   </span>
-                </div>
-                <div className="h-48 overflow-hidden rounded-2xl border border-white/10 bg-black/40">
-                  <DriverRouteMap
-                    origin={driverLocation}
-                    destination={routeDestination}
+              </div>
+              <div className="h-48 overflow-hidden rounded-2xl border border-white/10 bg-black/40">
+                <DriverRouteMap
+                  origin={driverLocation}
+                  destination={routeDestination}
                     pickup={pickupPoint}
                     dropoff={dropoffPoint}
                     onEtaChange={setRouteEta}
                     onRouteStatus={setRouteStatus}
                     onRouteSteps={setRouteSteps}
                   />
+                </div>
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs uppercase tracking-[0.3em] text-white/50">
+                  <span>Share live route</span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="neon-outline"
+                    onClick={handleShareRoute}
+                  >
+                    Copy Waze link
+                  </Button>
                 </div>
                 {routeSteps.length > 0 && (
                   <div className="rounded-2xl border border-white/10 bg-black/30 p-3 text-xs text-white/70">
@@ -1538,6 +1728,66 @@ export default function DriverApp() {
                           <span className="text-white/50">
                             {formatStepDistance(step.distance)}
                           </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {queuedOrders.length > 0 && (
+                  <div className="rounded-2xl border border-white/10 bg-black/30 p-3 text-xs text-white/70">
+                    <p className="mb-2 text-[0.65rem] uppercase tracking-[0.3em] text-white/50">
+                      Queued trips
+                    </p>
+                    <div className="space-y-2">
+                      {queuedOrders.map((order) => (
+                        <div
+                          key={order.id}
+                          className="flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 p-2 sm:flex-row sm:items-center sm:justify-between"
+                        >
+                          <div className="space-y-1">
+                            <p className="text-white/80">
+                              {order.customerName}
+                            </p>
+                            <p className="text-[0.7rem] uppercase tracking-[0.25em] text-white/50">
+                              {order.status}
+                            </p>
+                            <p className="text-xs text-white/60">
+                              {order.pickupAddress} → {order.deliveryAddress}
+                            </p>
+                          </div>
+                          <div className="flex flex-wrap gap-2">
+                            {order.status === 'ASSIGNED' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="neon-outline"
+                                onClick={() => handleAcceptAssignedOrder(order)}
+                                disabled={isWorking}
+                              >
+                                Accept
+                              </Button>
+                            )}
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              className="neon-outline"
+                              onClick={() => prioritizeOrder(order.id)}
+                              disabled={isWorking}
+                            >
+                              Make active
+                            </Button>
+                            {order.status === 'ASSIGNED' && (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                className="neon-outline border-red-400/60 text-red-200 hover:border-red-300 hover:text-red-100"
+                                onClick={() => handleReleaseOrder(order)}
+                                disabled={isWorking}
+                              >
+                                Release
+                              </Button>
+                            )}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1697,10 +1947,6 @@ export default function DriverApp() {
                       <div className="flex items-center justify-between">
                         <span>Delivery fee</span>
                         <span>{formatCurrency(activeOrder.deliveryFee)}</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span>Payment</span>
-                        <span>{activeOrder.paymentType}</span>
                       </div>
                     </div>
                   </div>

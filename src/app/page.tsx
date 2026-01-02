@@ -217,6 +217,9 @@ const defaultDriverForm = {
 }
 
 export default function Home() {
+  const [isHydrated, setIsHydrated] = useState(false)
+  useEffect(() => setIsHydrated(true), [])
+
   const [selectedTab, setSelectedTab] = useState('overview')
   const [adminSession, setAdminSession] = useState<AdminSession | null>(null)
   const [metrics, setMetrics] = useState<Metrics | null>(null)
@@ -553,14 +556,23 @@ export default function Home() {
     )
   }
 
+  const todayOrders = useMemo(() => {
+    const start = new Date()
+    start.setHours(0, 0, 0, 0)
+    return orders.filter((order) => {
+      const created = new Date(order.createdAt).getTime()
+      return Number.isFinite(created) && created >= start.getTime()
+    })
+  }, [orders])
+
   const liveOrders = useMemo(
     () =>
-      orders.filter((order) =>
+      todayOrders.filter((order) =>
         ['PENDING', 'ASSIGNED', 'ACCEPTED', 'PICKED_UP', 'EN_ROUTE'].includes(
           order.status
         )
       ),
-    [orders]
+    [todayOrders]
   )
   const recentLiveOrders = useMemo(
     () => liveOrders.slice(0, 5),
@@ -581,7 +593,20 @@ export default function Home() {
       ),
     [drivers]
   )
-  const fleetDrivers = useMemo(() => drivers.slice(0, 4), [drivers])
+  const liveDriverDetails = useMemo(() => {
+    return drivers
+      .filter((driver) => driver.isActive !== false)
+      .map((driver) => {
+        const activeOrder = todayOrders.find(
+          (order) =>
+            order.assignedDriverId === driver.id &&
+            ['ASSIGNED', 'ACCEPTED', 'PICKED_UP', 'EN_ROUTE'].includes(
+              order.status
+            )
+        )
+        return { driver, activeOrder }
+      })
+  }, [drivers, todayOrders])
   const mapDrivers = useMemo(
     () =>
       drivers.filter(
@@ -594,14 +619,14 @@ export default function Home() {
   )
   const mapOrders = useMemo(
     () =>
-      orders
+      todayOrders
         .filter((order) =>
           ['PENDING', 'ASSIGNED', 'ACCEPTED', 'PICKED_UP', 'EN_ROUTE'].includes(
             order.status
           )
         )
         .slice(0, 5),
-    [orders]
+    [todayOrders]
   )
 
   const clientDirectory = useMemo(() => {
@@ -1050,9 +1075,24 @@ export default function Home() {
             )}`
           : `${newIssues.length} new driver issues`
       sendBrowserNotification('Driver issue reported', message)
+      const issueId = newIssues[0]?.id
       toast({
         title: 'Driver issue reported',
-        description: message
+        description: message,
+        action: issueId
+          ? {
+              label: 'View',
+              onClick: () => {
+                setSelectedTab('drivers')
+                setTimeout(() => {
+                  const el = document.querySelector(
+                    `[data-issue-id="${issueId}"]`
+                  ) as HTMLElement | null
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }, 50)
+              }
+            }
+          : undefined
       })
     }
     issueIdsRef.current = issueIds
@@ -2210,7 +2250,7 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {fleetDrivers.length === 0 ? (
+                    {liveDriverDetails.length === 0 ? (
                       <div className="rounded-2xl border border-white/10 bg-white/5 p-6 text-center">
                         <MapPin className="mx-auto mb-3 h-10 w-10 text-pink-200" />
                         <p className="text-white/70">No live telemetry yet</p>
@@ -2219,7 +2259,7 @@ export default function Home() {
                         </p>
                       </div>
                     ) : (
-                      fleetDrivers.map((driver) => (
+                      liveDriverDetails.map(({ driver, activeOrder }) => (
                         <div
                           key={driver.id}
                           className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 transition hover:-translate-y-0.5 hover:border-pink-400/40 hover:bg-white/10"
@@ -2250,6 +2290,13 @@ export default function Home() {
                                 {renderRatingStars(driver.rating)}
                                 <span>{driver.rating.toFixed(1)}</span>
                               </div>
+                              <p className="text-xs text-white/60">
+                                {activeOrder
+                                  ? `Route: ${activeOrder.pickupAddress} → ${activeOrder.deliveryAddress} (${activeOrder.status
+                                      .replace('_', ' ')
+                                      .toLowerCase()})`
+                                  : 'No active trip'}
+                              </p>
                             </div>
                           </div>
                           <div className="w-full text-left text-xs text-white/50 sm:w-auto sm:text-right">
@@ -2702,6 +2749,7 @@ export default function Home() {
                         <div
                           key={issue.id}
                           className="rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:-translate-y-0.5 hover:border-pink-400/40"
+                          data-issue-id={issue.id}
                         >
                           <div className="flex flex-wrap items-center justify-between gap-3">
                             <div>
@@ -3944,10 +3992,6 @@ export default function Home() {
               <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-white/60">
                 <span>Delivery fee</span>
                 <span>{formatCurrency(selectedOrder.deliveryFee)}</span>
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-white/60">
-                <span>Payment</span>
-                <span>{selectedOrder.paymentType}</span>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-3 text-sm text-white/60">
                 <span>Status</span>

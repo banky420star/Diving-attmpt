@@ -117,9 +117,15 @@ type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 type ToastActionElement = React.ReactElement<typeof ToastAction>
 
+export type ToastActionConfig = {
+  label: string
+  onClick: () => void
+}
+
 export {
   type ToastProps,
   type ToastActionElement,
+  type ToastActionConfig,
   ToastProvider,
   ToastViewport,
   Toast,

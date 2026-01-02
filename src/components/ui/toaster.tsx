@@ -2,6 +2,7 @@
 
 import { useToast } from "@/hooks/use-toast"
 import {
+  ToastAction,
   Toast,
   ToastClose,
   ToastDescription,
@@ -24,7 +25,13 @@ export function Toaster() {
                 <ToastDescription>{description}</ToastDescription>
               )}
             </div>
-            {action}
+            {action && !("onClick" in action) ? (
+              action
+            ) : action && "onClick" in action ? (
+              <ToastAction altText={action.label} onClick={action.onClick}>
+                {action.label}
+              </ToastAction>
+            ) : null}
             <ToastClose />
           </Toast>
         )

@@ -15,7 +15,7 @@ type ToasterToast = ToastProps & {
   id: string
   title?: React.ReactNode
   description?: React.ReactNode
-  action?: ToastActionElement
+  action?: ToastActionElement | { label: string; onClick: () => void }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
